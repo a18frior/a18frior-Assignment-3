@@ -1,14 +1,21 @@
 package com.example.brom.activitiesapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG =
+            MainActivity.class.getSimpleName();
+
     private String[] mountainNames = {"Matterhorn","Mont Blanc","Denali"};
     private String[] mountainLocations = {"Alps","Alps","Alaska"};
     private int[] mountainHeights ={4478,4808,6190};
@@ -22,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ArrayList<String> berg = new ArrayList<String>(Arrays.asList(mountainNames));
 
-        ArrayList<Mountain> berg2=new ArrayList<>();
+        final ArrayList<Mountain> berg2=new ArrayList<>();
 
 
 
@@ -33,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, R.layout.list_item_textview, R.id.fridasItem, berg);
             ListView lista= findViewById(R.id.fridaslist);
             lista.setAdapter(adapter1);
+
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent appInfo = new Intent(MainActivity.this, MountainDetailsActivity.class);
+
+                            appInfo.putExtra("berget", berg2.get(position).info());
+
+
+
+
+
+                    startActivity(appInfo);
+                }
+            });
+
 
         // 1. Create a ListView as in previous assignment
         // 2. Create a new activity named "MountainDetailsActivity
